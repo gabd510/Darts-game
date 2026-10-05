@@ -19,3 +19,9 @@ body { min-height:100vh; }
 .popup p { margin:0; white-space:pre-wrap; }
 .error { position:fixed; left:16px; right:16px; bottom:16px; z-index:1000; max-width:760px; margin:auto; padding:12px 14px; border-radius:10px; background:#5c1515; color:#fff; box-shadow:0 8px 24px rgba(0,0,0,.4); }
 @media (max-width:600px) { .board-container { margin:8px; } .board { width:calc(100vw - 16px); } }
+
+/* A kiemelés mindig a mentett poligon alakját követi. */
+.poly.selected, .poly:focus-visible { fill:rgba(45,160,255,.42); stroke:#45b6ff; stroke-width:.18; outline:none; }
+.circle-hotspot.selected, .circle-hotspot:focus-visible { background:rgba(45,160,255,.42); outline:2px solid #45b6ff; }
+.text-item { padding:0; max-width:none; }
+.popup { max-height:calc(100dvh - 40px); overflow:auto; }

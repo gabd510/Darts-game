@@ -11,3 +11,5 @@ Ez a verzió nem tartalmaz adminfelületet, bejelentkezést vagy backendet. A t�
 5. Branch: `main`, mappa: `/ (root)`, majd **Save**.
 
 A `board.json` szerkesztésével később a hotspotok és feliratok tartalma kézzel is módosítható.
+
+Frissítés: darts2.png háttér, 88 visszaállított mezőnév és valódi poligonos kék kijelölés. A feliratok a tábla méretével arányosan skálázódnak. A szabályok a korábbi mentésből maradtak meg; a hiányzó szabályok később kitöltendők. A ZIP teljes tartalmával cseréld a korábbi fájlokat.

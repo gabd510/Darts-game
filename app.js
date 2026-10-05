@@ -13,6 +13,15 @@
   const errorBox = document.getElementById("error");
   const svgNS = "http://www.w3.org/2000/svg";
   let boardData = null;
+  let selectedId = null;
+
+  function updateSelection() {
+    for (const element of boardContainer.querySelectorAll("[data-hotspot-id]")) {
+      const selected = element.dataset.hotspotId === selectedId;
+      element.classList.toggle("selected", selected);
+      element.setAttribute("aria-pressed", String(selected));
+    }
+  }
 
   const pct = (value, fallback = "50%") => {
     if (typeof value === "number") return `${value}%`;
@@ -21,6 +30,8 @@
   };
 
   function showPopup(hotspot) {
+    selectedId = hotspot.id;
+    updateSelection();
     popupTitle.textContent = hotspot.name || "";
     popupRule.textContent = hotspot.rule || "";
     overlay.hidden = false;
@@ -37,7 +48,7 @@
     circleLayer.replaceChildren();
 
     const width = board.getBoundingClientRect().width || BASE_BOARD_WIDTH;
-    const scale = Math.max(0.35, Math.min(1.2, width / BASE_BOARD_WIDTH));
+    const scale = width / BASE_BOARD_WIDTH;
 
     for (const hotspot of boardData.hotspots || []) {
       if ((hotspot.shape || "circle") === "poly") {
@@ -46,6 +57,7 @@
         const polygon = document.createElementNS(svgNS, "polygon");
         polygon.setAttribute("points", vertices.map(v => `${parseFloat(v.x)},${parseFloat(v.y)}`).join(" "));
         polygon.setAttribute("class", "poly");
+        polygon.dataset.hotspotId = hotspot.id;
         polygon.setAttribute("tabindex", "0");
         polygon.setAttribute("role", "button");
         polygon.setAttribute("aria-label", hotspot.name || "Darts mező");
@@ -56,6 +68,8 @@
         const button = document.createElement("button");
         button.type = "button";
         button.className = "circle-hotspot";
+        button.dataset.hotspotId = hotspot.id;
+        button.style.width = button.style.height = `${40 * scale}px`;
         button.style.left = pct(hotspot.x);
         button.style.top = pct(hotspot.y);
         button.setAttribute("aria-label", hotspot.name || "Darts mező");
@@ -71,7 +85,7 @@
       el.style.left = pct(item.x);
       el.style.top = pct(item.y);
       el.style.transform = `translate(-50%,-50%) rotate(${Number(item.rotation) || 0}deg)`;
-      el.style.fontSize = `${Math.max(10, (Number(item.fontSize) || 22) * scale)}px`;
+      el.style.fontSize = `${(Number(item.fontSize) || 22) * scale}px`;
       el.style.color = item.color || "#fff";
       el.style.textAlign = item.align || "center";
       el.style.fontFamily = item.fontFamily || "Arial";
@@ -80,6 +94,7 @@
       el.style.textDecoration = item.underline ? "underline" : "none";
       textLayer.appendChild(el);
     }
+    updateSelection();
   }
 
   async function init() {
